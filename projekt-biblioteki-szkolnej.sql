@@ -9,13 +9,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema biblioteka
 -- -----------------------------------------------------
 -- Internetowy System Biblioteczny 
-CREATE SCHEMA IF NOT EXISTS `testowa` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci ;
-USE `testowa` ;
+CREATE SCHEMA IF NOT EXISTS `biblioteka` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci ;
+USE `biblioteka` ;
 
 -- -----------------------------------------------------
--- Table `testowa`.`czytelnik`
+-- Table `biblioteka`.`czytelnik`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `testowa`.`czytelnik` (
+CREATE TABLE IF NOT EXISTS `biblioteka`.`czytelnik` (
   `id_czytelnik` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny przydzielony automatycznie',
   `login` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Nazwa czytelnika potrzeba przy logowaniu.',
   `haslo` VARCHAR(45) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Hasło niezaszyfrowane',
@@ -33,9 +33,9 @@ COMMENT = 'Posiada informacje o czytelnikach zarejestrowanych w programie.';
 
 
 -- -----------------------------------------------------
--- Table `testowa`.`kategoria`
+-- Table `biblioteka`.`kategoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `testowa`.`kategoria` (
+CREATE TABLE IF NOT EXISTS `biblioteka`.`kategoria` (
   `id_kategoria` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny przydzielony automatycznie',
   `nazwa` VARCHAR(200) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Nazwa kategorii',
   PRIMARY KEY (`id_kategoria`))
@@ -44,9 +44,9 @@ COMMENT = 'Tabela zawierająca wszystkie kategorie książek w systemie.';
 
 
 -- -----------------------------------------------------
--- Table `testowa`.`ksiazka`
+-- Table `biblioteka`.`ksiazka`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `testowa`.`ksiazka` (
+CREATE TABLE IF NOT EXISTS `biblioteka`.`ksiazka` (
   `id_ksiazka` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny przydzielony automatycznie',
   `id_kategoria` INT NOT NULL COMMENT 'Klucz obcy z tabeli kategoria',
   `isbn` VARCHAR(13) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Niepowtarzalny 13-cyfrowy identyfikator książki',
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `testowa`.`ksiazka` (
   INDEX `fk_ksiazka_kategoria1_idx` (`id_kategoria` ASC),
   CONSTRAINT `fk_ksiazka_kategoria1`
     FOREIGN KEY (`id_kategoria`)
-    REFERENCES `testowa`.`kategoria` (`id_kategoria`)
+    REFERENCES `biblioteka`.`kategoria` (`id_kategoria`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -68,9 +68,9 @@ COMMENT = 'Wszystkie książki dodane do bazy danych.';
 
 
 -- -----------------------------------------------------
--- Table `testowa`.`zamowienie`
+-- Table `biblioteka`.`zamowienie`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `testowa`.`zamowienie` (
+CREATE TABLE IF NOT EXISTS `biblioteka`.`zamowienie` (
   `id_zamowienie` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny przydzielony automatycznie',
   `id_czytelnik` INT NOT NULL COMMENT 'Klucz obcy z tabeli czytelnik',
   `id_ksiazka` INT NOT NULL COMMENT 'Klucz obcy z tabeli ksiazka',
@@ -82,12 +82,12 @@ CREATE TABLE IF NOT EXISTS `testowa`.`zamowienie` (
   INDEX `fk_zamowienie_ksiazka1_idx` (`id_ksiazka` ASC),
   CONSTRAINT `fk_zamowienie_czytelnik1`
     FOREIGN KEY (`id_czytelnik`)
-    REFERENCES `testowa`.`czytelnik` (`id_czytelnik`)
+    REFERENCES `biblioteka`.`czytelnik` (`id_czytelnik`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_zamowienie_ksiazka1`
     FOREIGN KEY (`id_ksiazka`)
-    REFERENCES `testowa`.`ksiazka` (`id_ksiazka`)
+    REFERENCES `biblioteka`.`ksiazka` (`id_ksiazka`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -95,9 +95,9 @@ COMMENT = 'Posiada informacje o zamówionych, wypożyczonych czy oddanych ksią�
 
 
 -- -----------------------------------------------------
--- Table `testowa`.`admin`
+-- Table `biblioteka`.`admin`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `testowa`.`admin` (
+CREATE TABLE IF NOT EXISTS `biblioteka`.`admin` (
   `id_admin` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny przydzielony automatycznie',
   `login` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Nazwa administratora potrzebna przy logowaniu',
   `haslo` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Hasło niezaszyfrowane',
@@ -107,9 +107,9 @@ COMMENT = 'Posiada informacje o administratorach zarejestrowanych w programie.';
 
 
 -- -----------------------------------------------------
--- Table `testowa`.`bibliotekarz`
+-- Table `biblioteka`.`bibliotekarz`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `testowa`.`bibliotekarz` (
+CREATE TABLE IF NOT EXISTS `biblioteka`.`bibliotekarz` (
   `id_bibliotekarz` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny przydzielony automatycznie',
   `login` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Nazwa bibliotekarza potrzebna przy logowaniu',
   `haslo` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL COMMENT 'Hasło niezaszyfrowane',
